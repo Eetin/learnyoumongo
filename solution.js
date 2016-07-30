@@ -1,11 +1,15 @@
 var mongo = require('mongodb').MongoClient
-mongo.connect('mongodb://localhost:27017/learnyoumongo', function(err, db) {
+mongo.connect('mongodb://localhost:27017/' + process.argv[2], function(err, db) {
     if (err) throw err
-    var docs = db.collection('docs')
-    var newDoc = { firstName: process.argv[2], lastName: process.argv[3] }
-    docs.insert(newDoc, function(err, records) {
+    var docs = db.collection('users')
+    docs.update({
+        username: 'tinatime'
+    }, {
+        $set: {
+            age: 40
+        }
+    }, function(err, data) {
         if (err) throw err
-        console.log(JSON.stringify(newDoc))
     })
     db.close();
 })
